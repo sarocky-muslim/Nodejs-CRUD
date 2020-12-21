@@ -1,14 +1,32 @@
+const mongoose = require('mongoose');
 const Category = require('./model');
 
 async function getAllCategory(request, response){
-    const model = await Category.find();
-    response.json(model);
+    try {
+        const model = await Category.find();
+        response.json(model);
+    } catch (error) {
+        response.status(400).json(error);
+    }
 }
 
 async function getSingleCategory(request, response){
-    const id = request.params.id;
-    const model = await Category.findById(id);
-    response.json(model);
+    try{
+        const isValid = mongoose.Types.ObjectId.isValid(request.params.id);
+        if(isValid){
+            const id = mongoose.Types.ObjectId(request.params.id);
+            const model = await Category.findById(id);
+            if(model == null){
+                response.status(200).send("Empty Category Found");
+            }else{
+                response.status(200).json(model);
+            }
+        }else{
+            response.status(200).send("Invalid Category Id");
+        }
+    }catch(error){
+        response.status(400).json(error);
+    }
 }
 
 async function postSingleCategory(request, response){
