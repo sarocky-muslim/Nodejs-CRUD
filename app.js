@@ -15,7 +15,7 @@ app.all('*', (request, response) => {
 // database connection
 const mongoose = require('mongoose');
 const uris = 'mongodb://localhost:27017/test';
-const options = {useNewUrlParser: true, useUnifiedTopology: true};
+const options = {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false};
 mongoose.connect(uris, options);
 
 const db = mongoose.connection;

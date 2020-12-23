@@ -1,11 +1,11 @@
-const controller = require('./controller');
+const category = require('./controller');
 const router = require('express').Router();
 
-router.get('/', controller.getAllCategory);
-router.get('/:id', controller.getSingleCategory);
-router.post('/', controller.postSingleCategory);
-router.put('/:id', controller.putSingleCategory);
-router.delete('/:id', controller.deleteSingleCategory);
+router.get('/category/', category.getAllCategory);
+router.get('/category/:id', category.getSingleCategory);
+router.post('/category/', category.postSingleCategory);
+router.put('/category/:id', category.putSingleCategory);
+router.delete('/category/:id', category.deleteSingleCategory);
 
 router.all('*', (request, response) => {
     response.send("404 Page Not Found");

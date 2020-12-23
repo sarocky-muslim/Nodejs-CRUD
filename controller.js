@@ -4,7 +4,7 @@ const Category = require('./model');
 async function getAllCategory(request, response){
     try {
         const model = await Category.find();
-        response.json(model);
+        response.status(200).json(model);
     } catch (error) {
         response.status(400).json(error);
     }
@@ -30,21 +30,51 @@ async function getSingleCategory(request, response){
 }
 
 async function postSingleCategory(request, response){
-    const model = new Category(request.body);
-    await model.save();
-    response.send("New Category Create Successfull");
+    try{
+        const model = new Category(request.body);
+        const result = await model.save();
+        response.status(200).json({'message' : 'New Category Create Successful', 'result' : result})
+    }catch(error){
+        response.status(400).json(error);
+    }
 }
 
 async function putSingleCategory(request, response){
-    const id = request.params.id;
-    const model = await Category.findByIdAndUpdate(id,{$set: request.body});
-    response.send("Category Update Successfull");
+    try{
+        const isValid = mongoose.Types.ObjectId.isValid(request.params.id);
+        if(isValid){
+            const id = mongoose.Types.ObjectId(request.params.id);
+            const model = await Category.findByIdAndUpdate(id,{$set: request.body},{new : true});
+            if(model == null){
+                response.status(200).send("Empty Category Found");
+            }else{
+                response.status(200).json({'message' : 'This Category Update Successful', 'result' : model})
+            }
+        }else{
+            response.status(200).send("Invalid Category Id");
+        }
+    }catch(error){
+        response.status(400).json(error);
+    }
 }
 
 async function deleteSingleCategory(request, response){
-    const id = request.params.id;
-    const model = await Category.findByIdAndDelete(id);
-    response.send("Category Delete Successfull");
+    try{
+        const isValid = mongoose.Types.ObjectId.isValid(request.params.id);
+        if(isValid){
+            const id = mongoose.Types.ObjectId(request.params.id);
+            const model = await Category.findByIdAndDelete(id);
+            if(model == null){
+                response.status(200).send("Empty Category Found");
+            }else{
+                response.status(200).json({'message' : 'This Category Delete Successful', 'result' : model})
+            }
+        }else{
+            response.status(200).send("Invalid Category Id");
+        }
+    }catch(error){
+        response.status(400).json(error);
+    }
 }
 
 module.exports = {
