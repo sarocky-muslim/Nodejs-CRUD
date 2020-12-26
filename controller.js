@@ -17,7 +17,7 @@ async function getSingleCategory(request, response){
         if(isValid){
             const id = mongoose.Types.ObjectId(request.params.id);
             const model = await Category.findById(id);
-            if(model == null){
+            if(!model){
                 response.status(200).send("Empty Category Found");
             }else{
                 response.status(200).json(model);
@@ -46,7 +46,7 @@ async function putSingleCategory(request, response){
         if(isValid){
             const id = mongoose.Types.ObjectId(request.params.id);
             const model = await Category.findByIdAndUpdate(id,{$set: request.body},{new : true});
-            if(model == null){
+            if(!model){
                 response.status(200).send("Empty Category Found");
             }else{
                 response.status(200).json({'message' : 'This Category Update Successful', 'result' : model})
@@ -65,7 +65,7 @@ async function deleteSingleCategory(request, response){
         if(isValid){
             const id = mongoose.Types.ObjectId(request.params.id);
             const model = await Category.findByIdAndDelete(id);
-            if(model == null){
+            if(!model){
                 response.status(200).send("Empty Category Found");
             }else{
                 response.status(200).json({'message' : 'This Category Delete Successful', 'result' : model})

@@ -5,7 +5,7 @@ exports.categoryValidator = [
     body('name')
         .not().isEmpty().withMessage('this field is required')
         .custom(async name => {
-            const category = Category.findOne({name});
+            const category = await Category.findOne({name});
             if(category){
                 return Promise.reject('the name already in use');
             }
