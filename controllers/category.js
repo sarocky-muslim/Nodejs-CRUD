@@ -1,6 +1,5 @@
-const { body, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const Category = require('./model');
+const Category = require('../models/Category');
 
 async function getAllCategory(request, response){
     try {

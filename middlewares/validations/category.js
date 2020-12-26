@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator');
-const Category = require('./model');
+const Category = require('../../models/Category');
 
-exports.categoryValidator = [
+module.exports = [
     body('name')
         .not().isEmpty().withMessage('this field is required')
         .custom(async name => {
