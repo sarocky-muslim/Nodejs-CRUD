@@ -10,7 +10,7 @@ module.exports = [
                 return Promise.reject('the name already in use');
             }
         }),
-    body('description').isLength({max : 100}).withMessage('maximum length is 2'),
+    body('description').isLength({max : 100}).withMessage('maximum length is 100'),
     (request, response, next) => {
         const errors = validationResult(request);
         if (!errors.isEmpty()) {
